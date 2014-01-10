@@ -153,8 +153,7 @@ public class DomainValidator implements Serializable {
            return true;
         }
         return isValidInfrastructureTld(tld)
-                || isValidGenericTld(tld)
-                || isValidCountryCodeTld(tld);
+                || isValidAnyTld(tld);
     }
 
     /**
@@ -168,6 +167,10 @@ public class DomainValidator implements Serializable {
         return INFRASTRUCTURE_TLD_LIST.contains(chompLeadingDot(iTld.toLowerCase()));
     }
 
+    private boolean isValidAnyTld(String gTld) {
+        return ALL_TLD_LIST.contains(chompLeadingDot(gTld.toLowerCase()));
+    }
+
     /**
      * Returns true if the specified <code>String</code> matches any
      * IANA-defined generic top-level domain. Leading dots are ignored
@@ -175,9 +178,9 @@ public class DomainValidator implements Serializable {
      * @param gTld the parameter to check for generic TLD status
      * @return true if the parameter is a generic TLD
      */
-    public boolean isValidGenericTld(String gTld) {
-        return GENERIC_TLD_LIST.contains(chompLeadingDot(gTld.toLowerCase()));
-    }
+    //public boolean isValidGenericTld(String gTld) {
+    //    return GENERIC_TLD_LIST.contains(chompLeadingDot(gTld.toLowerCase()));
+    //}
 
     /**
      * Returns true if the specified <code>String</code> matches any
@@ -186,9 +189,9 @@ public class DomainValidator implements Serializable {
      * @param ccTld the parameter to check for country code TLD status
      * @return true if the parameter is a country code TLD
      */
-    public boolean isValidCountryCodeTld(String ccTld) {
-        return COUNTRY_CODE_TLD_LIST.contains(chompLeadingDot(ccTld.toLowerCase()));
-    }
+    //public boolean isValidCountryCodeTld(String ccTld) {
+    //    return COUNTRY_CODE_TLD_LIST.contains(chompLeadingDot(ccTld.toLowerCase()));
+    //}
 
     /**
      * Returns true if the specified <code>String</code> matches any
@@ -219,30 +222,402 @@ public class DomainValidator implements Serializable {
         "root"                // diagnostic marker for non-truncated root zone
     };
 
-    private static final String[] GENERIC_TLDS = new String[] {
-        "aero",               // air transport industry
-        "asia",               // Pan-Asia/Asia Pacific
-        "biz",                // businesses
-        "cat",                // Catalan linguistic/cultural community
-        "com",                // commercial enterprises
-        "coop",               // cooperative associations
-        "info",               // informational sites
-        "jobs",               // Human Resource managers
-        "mobi",               // mobile products and services
-        "museum",             // museums, surprisingly enough
-        "name",               // individuals' sites
-        "net",                // internet support infrastructure/business
-        "org",                // noncommercial organizations
-        "pro",                // credentialed professionals and entities
-        "tel",                // contact data for businesses and individuals
-        "travel",             // entities in the travel industry
-        "gov",                // United States Government
-        "edu",                // accredited postsecondary US education entities
-        "mil",                // United States Military
-        "int"                 // organizations established by international treaty
+    private static final String[] ALL_TLDS = new String[] {
+    	//# Version 2014010901, Last Updated Fri Jan 10 07:07:01 2014 UTC
+    	"ac",
+    	"academy",
+    	"ad",
+    	"ae",
+    	"aero",
+    	"af",
+    	"ag",
+    	"ai",
+    	"al",
+    	"am",
+    	"an",
+    	"ao",
+    	"aq",
+    	"ar",
+    	"arpa",
+    	"as",
+    	"asia",
+    	"at",
+    	"au",
+    	"aw",
+    	"ax",
+    	"az",
+    	"ba",
+    	"bb",
+    	"bd",
+    	"be",
+    	"berlin",
+    	"bf",
+    	"bg",
+    	"bh",
+    	"bi",
+    	"bike",
+    	"biz",
+    	"bj",
+    	"bm",
+    	"bn",
+    	"bo",
+    	"br",
+    	"bs",
+    	"bt",
+    	"builders",
+    	"buzz",
+    	"bv",
+    	"bw",
+    	"by",
+    	"bz",
+    	"ca",
+    	"cab",
+    	"camera",
+    	"camp",
+    	"careers",
+    	"cat",
+    	"cc",
+    	"cd",
+    	"center",
+    	"ceo",
+    	"cf",
+    	"cg",
+    	"ch",
+    	"ci",
+    	"ck",
+    	"cl",
+    	"clothing",
+    	"cm",
+    	"cn",
+    	"co",
+    	"codes",
+    	"coffee",
+    	"com",
+    	"company",
+    	"computer",
+    	"construction",
+    	"contractors",
+    	"coop",
+    	"cr",
+    	"cu",
+    	"cv",
+    	"cw",
+    	"cx",
+    	"cy",
+    	"cz",
+    	"de",
+    	"diamonds",
+    	"directory",
+    	"dj",
+    	"dk",
+    	"dm",
+    	"do",
+    	"domains",
+    	"dz",
+    	"ec",
+    	"edu",
+    	"education",
+    	"ee",
+    	"eg",
+    	"email",
+    	"enterprises",
+    	"equipment",
+    	"er",
+    	"es",
+    	"estate",
+    	"et",
+    	"eu",
+    	"farm",
+    	"fi",
+    	"fj",
+    	"fk",
+    	"florist",
+    	"fm",
+    	"fo",
+    	"fr",
+    	"ga",
+    	"gallery",
+    	"gb",
+    	"gd",
+    	"ge",
+    	"gf",
+    	"gg",
+    	"gh",
+    	"gi",
+    	"gl",
+    	"glass",
+    	"gm",
+    	"gn",
+    	"gov",
+    	"gp",
+    	"gq",
+    	"gr",
+    	"graphics",
+    	"gs",
+    	"gt",
+    	"gu",
+    	"guru",
+    	"gw",
+    	"gy",
+    	"hk",
+    	"hm",
+    	"hn",
+    	"holdings",
+    	"holiday",
+    	"house",
+    	"hr",
+    	"ht",
+    	"hu",
+    	"id",
+    	"ie",
+    	"il",
+    	"im",
+    	"immobilien",
+    	"in",
+    	"info",
+    	"institute",
+    	"int",
+    	"international",
+    	"io",
+    	"iq",
+    	"ir",
+    	"is",
+    	"it",
+    	"je",
+    	"jm",
+    	"jo",
+    	"jobs",
+    	"jp",
+    	"kaufen",
+    	"ke",
+    	"kg",
+    	"kh",
+    	"ki",
+    	"kitchen",
+    	"kiwi",
+    	"km",
+    	"kn",
+    	"kp",
+    	"kr",
+    	"kw",
+    	"ky",
+    	"kz",
+    	"la",
+    	"land",
+    	"lb",
+    	"lc",
+    	"li",
+    	"lighting",
+    	"limo",
+    	"lk",
+    	"lr",
+    	"ls",
+    	"lt",
+    	"lu",
+    	"lv",
+    	"ly",
+    	"ma",
+    	"management",
+    	"mc",
+    	"md",
+    	"me",
+    	"menu",
+    	"mg",
+    	"mh",
+    	"mil",
+    	"mk",
+    	"ml",
+    	"mm",
+    	"mn",
+    	"mo",
+    	"mobi",
+    	"mp",
+    	"mq",
+    	"mr",
+    	"ms",
+    	"mt",
+    	"mu",
+    	"museum",
+    	"mv",
+    	"mw",
+    	"mx",
+    	"my",
+    	"mz",
+    	"na",
+    	"name",
+    	"nc",
+    	"ne",
+    	"net",
+    	"nf",
+    	"ng",
+    	"ni",
+    	"ninja",
+    	"nl",
+    	"no",
+    	"np",
+    	"nr",
+    	"nu",
+    	"nz",
+    	"om",
+    	"onl",
+    	"org",
+    	"pa",
+    	"pe",
+    	"pf",
+    	"pg",
+    	"ph",
+    	"photography",
+    	"photos",
+    	"pk",
+    	"pl",
+    	"plumbing",
+    	"pm",
+    	"pn",
+    	"post",
+    	"pr",
+    	"pro",
+    	"ps",
+    	"pt",
+    	"pw",
+    	"py",
+    	"qa",
+    	"re",
+    	"recipes",
+    	"repair",
+    	"ro",
+    	"rs",
+    	"ru",
+    	"ruhr",
+    	"rw",
+    	"sa",
+    	"sb",
+    	"sc",
+    	"sd",
+    	"se",
+    	"sexy",
+    	"sg",
+    	"sh",
+    	"shoes",
+    	"si",
+    	"singles",
+    	"sj",
+    	"sk",
+    	"sl",
+    	"sm",
+    	"sn",
+    	"so",
+    	"solar",
+    	"solutions",
+    	"sr",
+    	"st",
+    	"su",
+    	"support",
+    	"sv",
+    	"sx",
+    	"sy",
+    	"systems",
+    	"sz",
+    	"tattoo",
+    	"tc",
+    	"td",
+    	"technology",
+    	"tel",
+    	"tf",
+    	"tg",
+    	"th",
+    	"tips",
+    	"tj",
+    	"tk",
+    	"tl",
+    	"tm",
+    	"tn",
+    	"to",
+    	"today",
+    	"tp",
+    	"tr",
+    	"training",
+    	"travel",
+    	"tt",
+    	"tv",
+    	"tw",
+    	"tz",
+    	"ua",
+    	"ug",
+    	"uk",
+    	"uno",
+    	"us",
+    	"uy",
+    	"uz",
+    	"va",
+    	"vc",
+    	"ve",
+    	"ventures",
+    	"vg",
+    	"vi",
+    	"viajes",
+    	"vn",
+    	"voyage",
+    	"vu",
+    	"wang",
+    	"wf",
+    	"wien",
+    	"ws",
+    	"xn--3bst00m",
+    	"xn--3ds443g",
+    	"xn--3e0b707e",
+    	"xn--45brj9c",
+    	"xn--55qw42g",
+    	"xn--6qq986b3xl",
+    	"xn--80ao21a",
+    	"xn--80asehdb",
+    	"xn--80aswg",
+    	"xn--90a3ac",
+    	"xn--clchc0ea0b2g2a9gcd",
+    	"xn--fiq228c5hs",
+    	"xn--fiqs8s",
+    	"xn--fiqz9s",
+    	"xn--fpcrj9c3d",
+    	"xn--fzc2c9e2c",
+    	"xn--gecrj9c",
+    	"xn--h2brj9c",
+    	"xn--j1amh",
+    	"xn--j6w193g",
+    	"xn--kprw13d",
+    	"xn--kpry57d",
+    	"xn--l1acc",
+    	"xn--lgbbat1ad8j",
+    	"xn--mgb9awbf",
+    	"xn--mgba3a4f16a",
+    	"xn--mgbaam7a8h",
+    	"xn--mgbayh7gpa",
+    	"xn--mgbbh1a71e",
+    	"xn--mgbc0a9azcg",
+    	"xn--mgberp4a5d4ar",
+    	"xn--mgbx4cd0ab",
+    	"xn--ngbc5azd",
+    	"xn--o3cw4h",
+    	"xn--ogbpf8fl",
+    	"xn--p1ai",
+    	"xn--pgbs0dh",
+    	"xn--q9jyb4c",
+    	"xn--s9brj9c",
+    	"xn--unup4y",
+    	"xn--wgbh1c",
+    	"xn--wgbl6a",
+    	"xn--xkc2al3hye2a",
+    	"xn--xkc2dl3a5ee0h",
+    	"xn--yfro4i67o",
+    	"xn--ygbi2ammx",
+    	"xn--zfr164b",
+    	"xxx",
+    	"ye",
+    	"yt",
+    	"za",
+    	"zm",
+    	"zw"
     };
 
-    private static final String[] COUNTRY_CODE_TLDS = new String[] {
+/*    private static final String[] COUNTRY_CODE_TLDS = new String[] {
         "ac",                 // Ascension Island
         "ad",                 // Andorra
         "ae",                 // United Arab Emirates
@@ -493,14 +868,14 @@ public class DomainValidator implements Serializable {
         "zm",                 // Zambia
         "zw",                 // Zimbabwe
     };
-
+*/
     private static final String[] LOCAL_TLDS = new String[] {
        "localhost",           // RFC2606 defined
        "localdomain"          // Also widely used as localhost.localdomain
    };
 
     private static final List INFRASTRUCTURE_TLD_LIST = Arrays.asList(INFRASTRUCTURE_TLDS);
-    private static final List GENERIC_TLD_LIST = Arrays.asList(GENERIC_TLDS);
-    private static final List COUNTRY_CODE_TLD_LIST = Arrays.asList(COUNTRY_CODE_TLDS);
+    private static final List ALL_TLD_LIST = Arrays.asList(ALL_TLDS);
+    //private static final List COUNTRY_CODE_TLD_LIST = Arrays.asList(COUNTRY_CODE_TLDS);
     private static final List LOCAL_TLD_LIST = Arrays.asList(LOCAL_TLDS);
 }
